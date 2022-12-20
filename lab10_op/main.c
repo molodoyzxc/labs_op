@@ -1,30 +1,32 @@
 #include <stdio.h>
 #include "malloc.h"
 #include "math.h"
-
+#include "sys/time.h"
 //var 21
-void nod() {
-    int a, b;
-    printf("enter 2 numbers\n");
-    scanf("%d%d", &a, &b);
+int nod(int a, int b) {
     for (int i = a; i > 0; i--) {
         if (a % i == 0 && b % i == 0) {
-            printf("nod=%d", i);
-            break;
+            return i;
+        }
+    }
+}
+int nod_rec(int a, int b) {
+    if (!b) {
+        return a;
+    } else {
+        return nod(b, a % b);
+    }
+}
+int nok(int a, int b) {
+    for (int i = 1; i <= a * b; i++) {
+        if (i % a == 0 && i % b == 0) {
+            return i;
         }
     }
 }
 
-void nok() {
-    int a, b;
-    printf("enter 2 numbers\n");
-    scanf("%d%d", &a, &b);
-    for (int i = 1; i <= a * b; i++) {
-        if (i % a == 0 && i % b == 0) {
-            printf("%d\n", i);
-            break;
-        }
-    }
+int nok_rec(int a, int b) {
+    return (a * b / nod(a, b));
 }
 
 void t_2() {
@@ -51,14 +53,40 @@ void t_2() {
             if (i < j) {
                 printf("%d - %d: %lf\n", i + 1, j + 1, total[i][j]);
             }
-
         }
     }
 }
 
 int main() {//var 21
-//    nod();
-//    nok();
-    t_2();
+    int x;
+    struct timeval tv;
+
+    gettimeofday(&tv, NULL);
+    double begin = ((double) tv.tv_sec) * 1000 + ((double) tv.tv_usec) / 1000;
+    x = nod(13,5123);
+    gettimeofday(&tv, NULL);
+    double end = ((double) tv.tv_sec) * 1000 + ((double) tv.tv_usec) / 1000;
+    printf("%f %d\n", end - begin, x);
+
+    gettimeofday(&tv, NULL);
+    begin = ((double) tv.tv_sec) * 1000 + ((double) tv.tv_usec) / 1000;
+    x = nod_rec(13,5123);
+    gettimeofday(&tv, NULL);
+    end = ((double) tv.tv_sec) * 1000 + ((double) tv.tv_usec) / 1000;
+    printf("%f %d\n", end - begin, x);
+
+    gettimeofday(&tv, NULL);
+    begin = ((double) tv.tv_sec) * 1000 + ((double) tv.tv_usec) / 1000;
+    x = nok(13,5123);
+    gettimeofday(&tv, NULL);
+    end = ((double) tv.tv_sec) * 1000 + ((double) tv.tv_usec) / 1000;
+    printf("%f %d\n", end - begin, x);
+
+    gettimeofday(&tv, NULL);
+    begin = ((double) tv.tv_sec) * 1000 + ((double) tv.tv_usec) / 1000;
+    x = nok_rec(13,5123);
+    gettimeofday(&tv, NULL);
+    end = ((double) tv.tv_sec) * 1000 + ((double) tv.tv_usec) / 1000;
+    printf("%f %d\n", end - begin, x);
     return 0;
 }
