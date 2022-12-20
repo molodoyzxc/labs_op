@@ -1,7 +1,0 @@
-int s(struct rectangle tmp) {
-    return abs(tmp.x2 - tmp.x1) * abs(tmp.y2 - tmp.y1);
-}
-
-int p(struct rectangle tmp) {
-    return (abs(tmp.x2 - tmp.x1) + abs(tmp.y2 - tmp.y1)) * 2;
-}
